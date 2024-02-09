@@ -1,21 +1,20 @@
 package org.example;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
-public class AsciiArtConverter {
+public class EnhancedAsciiArtConverter {
 
-    private static final String ASCII_CHARS = "@#=$*!;:~-,. ";
-    private static final String BLOCK_CHARS = "█▓▒░─";
+    private static final String ASCII_CHARS = "@#S%?*+;:,.'`\"^_-"; // 확장된 문자 세트
 
     public static void main(String[] args) {
         try {
-//            BufferedImage image = ImageIO.read(new File("/Users/xpmxf4/Desktop/develop/pic_to_ascii_art/src/main/resources/img.png"));
             BufferedImage image = ImageIO.read(new File("/Users/xpmxf4/Desktop/develop/pic_to_ascii_art/src/main/resources/img.png"));
-            String asciiArt = convertToAscii(image, 100); // 여기서 높이를 50으로 설정합니다.
+            String asciiArt = convertToAscii(image, 100); // 깃헙 커밋 메시지 폭에 맞춰 조정할 수 있습니다.
             System.out.println(asciiArt);
         } catch (IOException e) {
             System.out.println("IOException : " + e.getMessage());
@@ -32,7 +31,7 @@ public class AsciiArtConverter {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < newWidth; x++) {
                 Color pixelColor = new Color(resizedImage.getRGB(x, y));
-                double grey = (pixelColor.getRed() + pixelColor.getGreen() + pixelColor.getBlue()) / 3.0;
+                double grey = 0.299 * pixelColor.getRed() + 0.587 * pixelColor.getGreen() + 0.114 * pixelColor.getBlue();
                 sb.append(greyChar(grey));
             }
             sb.append("\n");
@@ -41,7 +40,7 @@ public class AsciiArtConverter {
     }
 
     private static char greyChar(double grey) {
-        String str = ASCII_CHARS + BLOCK_CHARS;
+        String str = ASCII_CHARS;
         int index = (int) ((str.length() - 1) * (grey / 255.0));
         return str.charAt(index);
     }
@@ -54,4 +53,3 @@ public class AsciiArtConverter {
         return resizedImage;
     }
 }
-
