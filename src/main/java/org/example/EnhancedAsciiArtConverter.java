@@ -3,19 +3,21 @@ package org.example;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class EnhancedAsciiArtConverter {
 
-    private static final String ASCII_CHARS = "@#S%?*+;:,.'`\"^_-"; // 확장된 문자 세트
+    private static final String ASCII_CHARS = "@B%8&WMA#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
 
     public static void main(String[] args) {
         try {
-            BufferedImage image = ImageIO.read(new File("/Users/xpmxf4/Desktop/develop/pic_to_ascii_art/src/main/resources/img.png"));
-            String asciiArt = convertToAscii(image, 100); // 깃헙 커밋 메시지 폭에 맞춰 조정할 수 있습니다.
-            System.out.println(asciiArt);
+            BufferedImage image = ImageIO.read(new File("src/main/resources/img.png")); // 이미지 파일 경로
+            String asciiArt = convertToAscii(image, 100);
+            saveAsciiArtToFile(asciiArt, "src/main/resources/ascii_art.txt"); // 저장할 파일 경로
         } catch (IOException e) {
             System.out.println("IOException : " + e.getMessage());
         }
@@ -51,5 +53,14 @@ public class EnhancedAsciiArtConverter {
         g.drawImage(originalImage, 0, 0, width, height, null);
         g.dispose();
         return resizedImage;
+    }
+
+    private static void saveAsciiArtToFile(String asciiArt, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(asciiArt);
+            System.out.println("ASCII art has been saved to " + filePath);
+        } catch (IOException e) {
+            System.out.println("Error saving ASCII art to file: " + e.getMessage());
+        }
     }
 }
