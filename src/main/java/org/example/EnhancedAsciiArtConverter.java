@@ -16,7 +16,7 @@ public class EnhancedAsciiArtConverter {
     public static void main(String[] args) {
         try {
             BufferedImage image = ImageIO.read(new File("src/main/resources/img.png")); // 이미지 파일 경로
-            String asciiArt = convertToAscii(image, 100);
+            String asciiArt = "새해복 많이 받으세요!\n" + convertToAscii(image, 80);
             saveAsciiArtToFile(asciiArt, "src/main/resources/ascii_art.txt"); // 저장할 파일 경로
         } catch (IOException e) {
             System.out.println("IOException : " + e.getMessage());
@@ -57,7 +57,7 @@ public class EnhancedAsciiArtConverter {
 
     private static void saveAsciiArtToFile(String asciiArt, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(asciiArt);
+            writer.write(asciiArt); // 여기서 asciiArt는 이미 "새해복 많이 받으세요!" 문구를 포함
             System.out.println("ASCII art has been saved to " + filePath);
         } catch (IOException e) {
             System.out.println("Error saving ASCII art to file: " + e.getMessage());
